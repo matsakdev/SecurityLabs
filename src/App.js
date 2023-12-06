@@ -1,23 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
+import DesPage from "./components/des-page/des-page";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="App dark h-screen flex flex-col">
+      <header className="App-header h-32">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          React <code>DES ALGO</code> app.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <DesPage />
     </div>
   );
 }
