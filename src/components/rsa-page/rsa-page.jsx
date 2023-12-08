@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import LoginForm from "../login-form/login-form";
 import {getPublicKey, sendLoginRequest} from "../../controllers/rsa";
 import InfoContainer from "../info-container/info-container";
+import ControlButtons from "../control-buttons/control-buttons";
+import keypair from "keypair";
 
 const RsaPage = () => {
     const [key, setKey] = useState(null);
@@ -11,7 +13,7 @@ const RsaPage = () => {
     const [receivedEmail, setReceivedEmail] = useState(null);
     const [formStatus, setFormStatus] = useState(null);
 
-    useEffect(() => {
+    const getPublicKeyAndSet = () => {
         try {
             getPublicKey().then(response => {
                 console.log(response.data);
@@ -20,7 +22,16 @@ const RsaPage = () => {
         } catch (err) {
             alert('Cannot connect to the host!')
         }
-    }, [])
+    }
+
+    // useEffect(() => {
+    //     getPublicKeyAndSet()
+    // }, [])
+
+    const changeRsaLocally = async () => {
+        const keys = await keypair()
+        setKey(keys.public);
+    }
 
     const setEncryptedInfo = (email, password) => {
         setEncryptedEmail(email);
@@ -39,18 +50,22 @@ const RsaPage = () => {
             })
             .catch(err => {
                 console.error(err);
-                alert('Network connection fail!');
+                alert('Wrong RSA!');
             })
     }
 
     return (
         <div className="flex flex-col bg-white dark:bg-slate-900">
             <div className="flex flex-col h-1/3 justify-start items-center mt-16">
-                <LoginForm formStatus={formStatus} onSubmitForm={loginRequest} />
+                <LoginForm formStatus={formStatus} onSubmitForm={loginRequest}/>
             </div>
-            <div className="flex flex-col justify-start align-start w-full p-24">
+            <div className="flex flex-col min-h-screen justify-start align-start w-full p-24">
                 <InfoContainer encryptedEmail={encryptedEmail} encryptedPassword={encryptedPassword}
-                               receivedEmail={receivedEmail} receivedPassword={receivedPassword} rsaKey={key} />
+                               receivedEmail={receivedEmail} receivedPassword={receivedPassword}
+                               rsaKey={key}
+                                changeRsaLocally={changeRsaLocally}
+                               getPublicKey={getPublicKeyAndSet}
+                />
             </div>
         </div>
     );

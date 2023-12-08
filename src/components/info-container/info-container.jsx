@@ -1,6 +1,8 @@
 import React from 'react';
+import ControlButtons from "../control-buttons/control-buttons";
+import {get} from "axios";
 
-const InfoContainer = ({encryptedEmail, encryptedPassword, receivedPassword, receivedEmail, rsaKey}) => {
+const InfoContainer = ({encryptedEmail, encryptedPassword, receivedPassword, receivedEmail, rsaKey, changeRsaLocally, getPublicKey}) => {
     return (
         <React.Fragment>
             <label htmlFor="emailEncypted"
@@ -46,7 +48,8 @@ const InfoContainer = ({encryptedEmail, encryptedPassword, receivedPassword, rec
                            disabled/>
                 </div>
                 <div className="flex flex-col items-start pl-10 w-1/2">
-                    <label htmlFor="rsa" className="block mt-8 mb-2 text-sm font-medium text-gray-900 dark:text-white">Rsa Key
+                    <label htmlFor="rsa" className="block mt-8 mb-2 text-sm font-medium text-gray-900 dark:text-white">Rsa
+                        Key
                     </label>
                     <textarea id="rsa" rows="6" value={rsaKey ? rsaKey : null}
                               className="block resize-none cursor-not-allowed p-2.5 w-full h-full
@@ -55,6 +58,9 @@ const InfoContainer = ({encryptedEmail, encryptedPassword, receivedPassword, rec
                                 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                               disabled></textarea>
                 </div>
+            </div>
+            <div className="flex flex-row justify-around items-center h-24 mt-10">
+                <ControlButtons changeRsaLocally={changeRsaLocally} getPublicKey={getPublicKey}/>
             </div>
         </React.Fragment>
     );
